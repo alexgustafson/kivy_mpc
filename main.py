@@ -4,8 +4,19 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.stacklayout import StackLayout
 from kivy.uix.label import Label
+from kivy.core.audio import SoundLoader
+from os.path import join, dirname
+
+def playsound(instance):
+
+    filename = join(dirname(__file__), 'sounds/{0}.wav'.format(instance.id))
+    sound = SoundLoader.load(filename)
+    if sound:
+        sound.play()
+
 
 class TestApp(App):
+
     def build(self):
         main_layout = BoxLayout(orientation='vertical', padding=20)
         header_layout = StackLayout()
@@ -16,7 +27,11 @@ class TestApp(App):
         main_layout.add_widget(header_layout)
 
         grid_layout = GridLayout(cols=4)
-        grid_layout.add_widget(Button(id='1'))
+
+        btn_1 = Button(id="1")
+        btn_1.bind(on_press=playsound)
+        grid_layout.add_widget(btn_1)
+
         grid_layout.add_widget(Button(id='2'))
         grid_layout.add_widget(Button(id='3'))
         grid_layout.add_widget(Button(id='4'))
@@ -36,6 +51,7 @@ class TestApp(App):
         main_layout.add_widget(grid_layout)
 
         return main_layout
+
 
 
 TestApp().run()
