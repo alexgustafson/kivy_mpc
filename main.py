@@ -8,12 +8,18 @@ from kivy.core.audio import SoundLoader
 from os.path import join, dirname
 
 def playsound(instance):
-
+    #
     filename = join(dirname(__file__), 'sounds/{0}.wav'.format(instance.id))
     sound = SoundLoader.load(filename)
     if sound:
         sound.play()
 
+
+def generate_buttons(layout):
+    for counter in range(1, 17):
+        new_button = Button(id="{0}".format(counter))
+        new_button.bind(on_press=playsound)
+        layout.add_widget(new_button)
 
 class TestApp(App):
 
@@ -28,30 +34,10 @@ class TestApp(App):
 
         grid_layout = GridLayout(cols=4)
 
-        btn_1 = Button(id="1")
-        btn_1.bind(on_press=playsound)
-        grid_layout.add_widget(btn_1)
-
-        grid_layout.add_widget(Button(id='2'))
-        grid_layout.add_widget(Button(id='3'))
-        grid_layout.add_widget(Button(id='4'))
-        grid_layout.add_widget(Button(id='5'))
-        grid_layout.add_widget(Button(id='6'))
-        grid_layout.add_widget(Button(id='7'))
-        grid_layout.add_widget(Button(id='8'))
-        grid_layout.add_widget(Button(id='9'))
-        grid_layout.add_widget(Button(id='10'))
-        grid_layout.add_widget(Button(id='11'))
-        grid_layout.add_widget(Button(id='12'))
-        grid_layout.add_widget(Button(id='13'))
-        grid_layout.add_widget(Button(id='14'))
-        grid_layout.add_widget(Button(id='15'))
-        grid_layout.add_widget(Button(id='16'))
+        generate_buttons(grid_layout)
 
         main_layout.add_widget(grid_layout)
 
         return main_layout
-
-
 
 TestApp().run()
